@@ -5,9 +5,12 @@
 package it.polito.tdp.PremierLeague;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
+import it.polito.tdp.PremierLeague.model.Battuti;
 import it.polito.tdp.PremierLeague.model.Model;
+import it.polito.tdp.PremierLeague.model.Player;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -45,16 +48,32 @@ public class FXMLController {
     @FXML
     void doCreaGrafo(ActionEvent event) {
 
+    	double soglia = Double.parseDouble(txtGoals.getText());
+    	String msg = model.creaGrafo(soglia);
+    	txtResult.appendText(msg);
     }
 
     @FXML
     void doDreamTeam(ActionEvent event) {
-
+        int k = Integer.parseInt(txtK.getText());
+    	List<Player> team = model.calcolaDreamTeam(k);
+        for(Player p : team) {
+        	txtResult.appendText(p.getName()+"\n");
+        }
+        txtResult.appendText(model.titTeam(team)+"");
+    	
     }
 
     @FXML
     void doTopPlayer(ActionEvent event) {
 
+    	txtResult.clear();
+    	Player p = model.migl();
+    	List<Battuti> bat = model.getBattuti();
+    	txtResult.appendText(p.getName()+"\n");
+    	for(Battuti b : bat) {
+    		txtResult.appendText(b.getP().getName()+" "+b.getDist()+"\n");
+    	}
     }
 
     @FXML // This method is called by the FXMLLoader when initialization is complete
